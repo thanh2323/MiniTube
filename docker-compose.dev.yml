@@ -1,0 +1,15 @@
+services:
+  db:
+    ports:
+      - "1433:1433"
+
+  backend:
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=MiniYoutube;User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5000:8080"
+
+  frontend:
+    ports:
+      - "3000:80"

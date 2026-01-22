@@ -1,0 +1,28 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${SA_PASSWORD}
+    volumes:
+      - db-data:/var/opt/mssql
+    restart: on-failure
+
+  backend:
+    build:
+      context: ./BE
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    restart: on-failure
+
+  frontend:
+    build:
+      context: ./FE
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    restart: on-failure
+
+volumes:
+  db-data:
