@@ -11,10 +11,11 @@ namespace MiniYoutube.Infrastructure.Data.Configurations
             builder.HasKey(wh => wh.Id);
 
             // Relationship: WatchHistory -> User
+            // Using Restrict to avoid multiple cascade paths (Users -> Videos -> WatchHistories and Users -> WatchHistories)
             builder.HasOne<User>()
                 .WithMany()
                 .HasForeignKey(wh => wh.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Relationship: WatchHistory -> Video
             builder.HasOne<Video>()
